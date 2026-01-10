@@ -66,7 +66,7 @@ def ExampleMOTORCC(Params):
                    [Kt/J, -b/J]])
     B = np.array([[1/La],
                    [0]])
-    C = np.array([[0, 1]])
+    C = np.array([[1, 0]])
     D = np.array([[0]])
 
     print("A:\n", A)
