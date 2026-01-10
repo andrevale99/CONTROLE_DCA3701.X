@@ -66,7 +66,7 @@ def ExampleMOTORCC(Params):
                    [Kt/J, -b/J]])
     B = np.array([[1/La],
                    [0]])
-    C = np.array([[1, 0]])
+    C = np.array([[0, 1]])
     D = np.array([[0]])
 
     print("A:\n", A)
@@ -96,5 +96,6 @@ def ExampleMOTORCC(Params):
 if __name__ == "__main__":
     # ExampleRLC(100, 1e-1, 1e-6)
 
-    Params = [1, 0.5, 0.01, 0.1, 0.01, 0.01]
+    # Ra, La, J, b, Kt, Ke
+    Params = [1, 0.15, 0.01, 0.1, 1, 1]
     ExampleMOTORCC(Params)
