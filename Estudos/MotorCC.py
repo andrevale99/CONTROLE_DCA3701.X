@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import signal as sg
+import control as ct
 
 """
 Exemplo de um sistema no espaço de estados
@@ -42,8 +43,60 @@ sys = sg.StateSpace(A, B, C, D)
 t, y = sg.step(sys)
 
 plt.plot(t, y)
-plt.title("Resposta ao Degrau do Circuito RLC")
+plt.title("Resposta ao Degrau do motor CC")
 plt.xlabel("Tempo (s)")
 plt.ylabel("Saída")
 plt.grid()
 plt.show()
+
+# Expandindo as matrizes para incluir o integrador
+Ahat = np.concatenate((A, np.zeros((2,1))), axis=1)
+temp = np.concatenate((-C, np.array([[0]])), axis=1)
+Ahat = np.concatenate((Ahat, temp), axis=0)
+Bhat = np.concatenate((B, np.array([[0]])), axis=0)
+
+del temp
+
+print("Matriz Ahat:\n", Ahat)
+print("Matriz Bhat:\n", Bhat)
+
+Polos = [-2+1j*np.sqrt(3), -2-1j*np.sqrt(3), -10]
+    
+K = ct.acker(Ahat, Bhat, Polos)
+print(K)
+KI = K[len(K)-1]
+K = np.copy(K[0:len(K)-1]).reshape(1,len(K)-1)
+
+print("Ganho de realimentação de estado K:\n", K)
+print("Ganho de realimentação de estado KI:\n", KI)
+
+# Aplicando no sistema realimentado
+A00 = A - (B * K)
+A01 = B * -KI
+A10 = -C
+A11 = np.array([[0]])
+    
+Af = np.concatenate((A00, A01), axis=1)
+temp = np.concatenate((A10, A11), axis=1)
+Af = np.concatenate((Af, temp), axis=0)
+
+del temp
+
+Bf = np.array([[0],[0],[1]])
+Cf = np.concatenate((C, np.array([[0]])), axis=1)
+Df = np.array([[0]])
+
+print("Matriz Af:\n", Af)
+print("Matriz Bf:\n", Bf)
+print("Matriz Cf:\n", Cf)
+print("Matriz Df:\n", Df)
+
+# Resposta do sistema realimentado
+t, y = sg.step(sg.StateSpace(Af, Bf, Cf, Df))
+plt.plot(t, y)
+plt.title("Resposta ao Degrau do Servossistema Tipo 1 - motor CC")
+plt.xlabel("Tempo (s)")
+plt.ylabel("Saída")
+plt.grid()
+plt.show()
+
