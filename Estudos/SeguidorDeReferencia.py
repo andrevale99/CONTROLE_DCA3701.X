@@ -51,6 +51,23 @@ def Exemplo_1_ServossistemaTIPO_1():
     plt.ylabel("Saída")
     plt.grid()
     plt.show()
+    
+def Exemplo_2_ServossistemaTIPO_1(_R,_L):
+    '''
+    Exemplo de projeto de um servossistema do tipo 1
+    quando nao ha integrador na planta. Usa como exemplo
+    um controle de corrente de um circuito RL (circuito presente
+    em motores de corrente continua).
+
+    Paramêtros:
+    _R : resistência do circuito RL (Ohms)
+    _L : indutância do circuito RL (Henrys)
+    '''
+    R = _R  # Ohms
+    L = _L  # Henrys
+
+    
 
 if __name__ == "__main__":
-    Exemplo_1_ServossistemaTIPO_1()
+    # Exemplo_1_ServossistemaTIPO_1()
+    Exemplo_2_ServossistemaTIPO_1(1, 0.5)
