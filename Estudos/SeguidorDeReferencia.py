@@ -84,8 +84,8 @@ def Exemplo_2_ServossistemaTIPO_1(Polos=None):
     print("Matriz Bhat:\n", Bhat)
 
     if Polos is None:
-        Polos = [-1+1j*np.sqrt(3), -1-1j*np.sqrt(3),
-                -5, -5, -5]
+        Polos = [-1+2j*np.sqrt(3), -1-2j*np.sqrt(3),
+                -1, -2, -3]
         
     K = ct.acker(Ahat, Bhat, Polos)
     print(K)
@@ -106,12 +106,13 @@ def Exemplo_2_ServossistemaTIPO_1(Polos=None):
     temp = np.concatenate((A10, A11), axis=1)
     Af = np.concatenate((Af, temp), axis=0)
 
-    print(Af)
+    print(f'autovalores de Af = {np.linalg.eigvals(Af)}')
 
     del temp
 
     Bf = np.array([[0],[0],[0],[0],[1]])
-    Cf = np.concatenate((C, np.array([[0]])), axis=1)
+    # Cf = np.concatenate((C, np.array([[0]])), axis=1)
+    Cf = np.array([[0,0,0,0,1]])
     Df = np.array([[0]])
 
     print("Matriz Af:\n", Af)
